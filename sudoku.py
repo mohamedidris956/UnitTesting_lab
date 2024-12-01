@@ -47,9 +47,20 @@ def solve_sudoku(board):
     :param board: A 9x9 2D list representing the Sudoku board
     :return: Solved board or None if unsolvable or invalid
     """
-    # Check if the board is valid
+    # Check if board size is valid (must be 9x9)
+    if len(board) != 9 or any(len(row) != 9 for row in board):
+        return None  # Invalid board size
+
+    # Check if all elements are integers between 0 and 9
+    if any(
+        not isinstance(cell, int) or not (0 <= cell <= 9)
+        for row in board
+        for cell in row
+    ):
+        return None  # Invalid element(s) in the board
+
     if not is_board_valid(board):
-        return None  # Return None for invalid boards
+        return None  # Invalid board content
 
     def backtrack():
         for i in range(9):
@@ -107,4 +118,3 @@ if __name__ == "__main__":
     print("\nInvalid board test:")
     invalid_solution = solve_sudoku(invalid_puzzle)
     print(invalid_solution)  # Should print None
-
